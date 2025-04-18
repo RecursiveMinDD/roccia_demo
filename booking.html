@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Experience - Roccia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1da96c;
+            --secondary: #1da96c;
+            --dark: #1a2a3a;
+            --light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('enhancedroccia.jpg') no-repeat center center/cover;
+            background-attachment: fixed;
+        }
+
+        .booking-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .booking-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .booking-title {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .booking-title h2 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .booking-form {
+            display: grid;
+            gap: 25px;
+        }
+
+        .form-group {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.5s ease-out forwards;
+            position: relative;
+        }
+
+        .form-group:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .form-group:nth-child(4) {
+            animation-delay: 0.5s;
+        }
+
+        .form-group:nth-child(5) {
+            animation-delay: 0.6s;
+        }
+
+        .form-group:nth-child(6) {
+            animation-delay: 0.7s;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .form-control,
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(29, 169, 108, 0.1);
+        }
+
+        .booking-summary {
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.8s ease-out 0.8s forwards;
+            opacity: 0;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .summary-item span:last-child {
+            font-weight: 500;
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .summary-item span:first-child {
+            color: #666;
+        }
+
+        .summary-item.updated span:last-child {
+            animation: updateFlash 0.5s ease;
+        }
+
+        @keyframes updateFlash {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+                color: var(--primary);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .summary-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .summary-item.updated::after {
+            transform: scaleX(1);
+        }
+
+        .book-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            animation: fadeIn 0.8s ease-out 1s forwards;
+            opacity: 0;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(29, 169, 108, 0.2);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .booking-container {
+                padding: 30px 20px;
+            }
+
+            .booking-title h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(29, 169, 108, 0.9), rgba(29, 169, 108, 0.9)),
+                url('enhancedroccia.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeOut 0.5s ease-out 2s forwards;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #fff;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Custom date input styling */
+        input[type="date"] {
+            position: relative;
+            padding: 15px 20px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            position: absolute;
+            right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            background-color: rgba(29, 169, 108, 0.1);
+            transform: scale(1.1);
+        }
+
+        input[type="date"]:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(29, 169, 108, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input[type="date"]:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(29, 169, 108, 0.1);
+            background: white;
+        }
+
+        /* Add a custom label animation */
+        .date-label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: white;
+            padding: 0 8px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Add this to the existing animations */
+        @keyframes floatLabel {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom select styling */
+        .package-select-container {
+            position: relative;
+        }
+
+        .form-select {
+            appearance: none;
+            position: relative;
+            padding: 15px 20px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .package-select-container::after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .package-select-container:hover::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .form-select:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(29, 169, 108, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(29, 169, 108, 0.1);
+            background: white;
+        }
+
+        /* Style for the options */
+        .form-select option {
+            padding: 15px;
+            font-size: 1rem;
+            background: white;
+            color: var(--dark);
+        }
+
+        .form-select option:first-child {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Package label styling */
+        .package-label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: white;
+            padding: 0 8px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatLabel 0.3s ease;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 169, 108, 0.2);
+        }
+
+        .back-btn i {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .package-info-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .activity-category {
+            width: 100%;
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .activity-category h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            padding-bottom: 5px;
+            border-bottom: 2px solid rgba(29, 169, 108, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .activities-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: rgba(29, 169, 108, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .activity-item:hover {
+            transform: translateY(-2px);
+            background: rgba(29, 169, 108, 0.2);
+            box-shadow: 0 4px 12px rgba(29, 169, 108, 0.1);
+        }
+
+        .activity-item i {
+            color: var(--primary);
+        }
+
+        /* Add these styles to your existing CSS */
+        .date-tooltip {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            background: rgba(29, 169, 108, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            pointer-events: none;
+            white-space: nowrap;
+            animation: fadeIn 0.3s ease;
+            z-index: 10;
+        }
+
+        .date-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 20px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid rgba(29, 169, 108, 0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Add this right after your <body> tag, before the loading screen -->
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <section class="booking-section">
+        <div class="booking-container">
+            <div class="booking-title">
+                <h2>Book Your Experience</h2>
+                <p>Complete your booking details below</p>
+            </div>
+            <form class="booking-form" id="bookingForm">
+                <div class="form-group package-select-container">
+                    <label for="package" class="package-label">Select Package</label>
+                    <select class="form-select" id="package" required>
+                        <option value="">Choose your adventure package...</option>
+                        <option value="leisure">🎯 Leisure Pass - ₹1149/person</option>
+                        <option value="adventure">🏃‍♂️ Adventure Pass - ₹1499/person</option>
+                        <option value="extreme">🎢 Extreme Adventure Pass - ₹1999/person</option>
+                        <option value="villa">🏡 Villa - ₹30,000/4 Couples</option>
+                        <option value="superdeluxe">🌟 Super Deluxe - ₹5500/Couple</option>
+                        <option value="tent">⛺ Mountain Tents - ₹3750/Couple</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date" class="date-label">Select Date</label>
+                    <input type="date" id="date" class="form-control" required
+                        data-placeholder="Choose your preferred date">
+                </div>
+                <div class="form-group">
+                    <label for="guests">Number of Guests</label>
+                    <input type="number" id="guests" class="form-control" min="1" max="100"
+                        placeholder="Enter number of guests" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" required>
+                </div>
+
+                <div class="package-info-panel" id="packageInfoPanel" style="display: none;">
+                    <h3>Activities Included</h3>
+                    <div class="activities-list" id="activitiesList"></div>
+                </div>
+
+                <div class="booking-summary">
+                    <h3>Booking Summary</h3>
+                    <div class="summary-item">
+                        <span>Package:</span>
+                        <span id="summaryPackage">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Date:</span>
+                        <span id="summaryDate">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Guests:</span>
+                        <span id="summaryGuests">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Amount:</span>
+                        <span id="summaryAmount">-</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="book-btn">Confirm Booking</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Replace the JavaScript section with this corrected version
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get all form elements
+            const form = document.getElementById('bookingForm');
+            const packageSelect = document.getElementById('package');
+            const dateInput = document.getElementById('date');
+            const guestsInput = document.getElementById('guests');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const packageContainer = packageSelect.parentElement;
+
+            // Create formInputs array once
+            const formInputs = [packageSelect, dateInput, guestsInput, nameInput, emailInput, phoneInput];
+
+            // Set date restrictions
+            const today = new Date();
+            const sixMonthsFromNow = new Date();
+            sixMonthsFromNow.setMonth(today.getMonth() + 6);
+
+            // Format dates for input min/max attributes
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            // Set min and max dates
+            dateInput.min = formatDate(today);
+            dateInput.max = formatDate(sixMonthsFromNow);
+
+            // Add custom validation and formatting
+            dateInput.addEventListener('input', function() {
+                const selectedDate = new Date(this.value);
+                if (selectedDate < today) {
+                    this.value = formatDate(today);
+                } else if (selectedDate > sixMonthsFromNow) {
+                    this.value = formatDate(sixMonthsFromNow);
+                }
+            });
+
+            // Enhanced date input functionality with custom message
+            dateInput.addEventListener('focus', function () {
+                // Get current date and time when user focuses on the input
+                const now = new Date();
+                const currentTime = now.toLocaleTimeString();
+                const sixMonthsFromNow = new Date();
+                sixMonthsFromNow.setMonth(now.getMonth() + 6);
+
+                // Format dates for input min/max attributes
+                const formatDate = (date) => {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                };
+
+                // Update min and max dates when input is focused
+                this.min = formatDate(now);
+                this.max = formatDate(sixMonthsFromNow);
+
+                // Show tooltip with current time
+                const tooltip = document.createElement('div');
+                tooltip.className = 'date-tooltip';
+                tooltip.textContent = `Select a date between now (${currentTime}) and ${sixMonthsFromNow.toLocaleDateString()}`;
+                this.parentElement.appendChild(tooltip);
+
+                if (!this.value) {
+                    this.type = 'date';
+                }
+            });
+
+            dateInput.addEventListener('input', function() {
+                const now = new Date();
+                const sixMonthsFromNow = new Date();
+                sixMonthsFromNow.setMonth(now.getMonth() + 6);
+                const selectedDate = new Date(this.value);
+
+                if (selectedDate < now) {
+                    // Format current date and time
+                    const formatDate = (date) => {
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    };
+                    this.value = formatDate(now);
+                } else if (selectedDate > sixMonthsFromNow) {
+                    this.value = formatDate(sixMonthsFromNow);
+                }
+            });
+
+            dateInput.addEventListener('blur', function () {
+                if (!this.value) {
+                    this.type = 'text';
+                }
+                // Remove tooltip
+                const tooltip = this.parentElement.querySelector('.date-tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            });
+
+            // Function to save form data to localStorage
+            function saveFormData() {
+                // Only save personal details
+                const personalData = {
+                    name: nameInput.value,
+                    email: emailInput.value,
+                    phone: phoneInput.value
+                };
+                localStorage.setItem('bookingPersonalData', JSON.stringify(personalData));
+            }
+
+            // Function to load form data from localStorage
+            function loadFormData() {
+                const savedData = localStorage.getItem('bookingPersonalData');
+                if (savedData) {
+                    const personalData = JSON.parse(savedData);
+
+                    // Only restore personal details
+                    nameInput.value = personalData.name || '';
+                    emailInput.value = personalData.email || '';
+                    phoneInput.value = personalData.phone || '';
+
+                    // Reset other fields
+                    packageSelect.value = '';
+                    dateInput.value = '';
+                    guestsInput.value = '';
+
+                    // Update the summary
+                    updateSummary();
+                }
+            }
+
+            // Update amount function
+            function updateAmount(element, amount) {
+                element.textContent = `₹${amount.toLocaleString()}`;
+            }
+
+            // Update summary function (keep existing implementation)
+            function updateSummary() {
+                const package = packageSelect.value;
+                const date = dateInput.value;
+                const guests = parseInt(guestsInput.value) || 0;
+                const name = nameInput.value;
+                const email = emailInput.value;
+                const phone = phoneInput.value;
+
+                // Update package details with animation
+                const summaryPackage = document.getElementById('summaryPackage');
+                if (summaryPackage.textContent !== (package ? packageSelect.options[packageSelect.selectedIndex].text : '-')) {
+                    summaryPackage.parentElement.classList.add('updated');
+                    setTimeout(() => summaryPackage.parentElement.classList.remove('updated'), 500);
+                }
+                summaryPackage.textContent = package ? packageSelect.options[packageSelect.selectedIndex].text : '-';
+                summaryPackage.style.color = package ? '#1da96c' : '#666';
+
+                // Update date with animation
+                const summaryDate = document.getElementById('summaryDate');
+                const formattedDate = date ? new Date(date).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }) : '-';
+                if (summaryDate.textContent !== formattedDate) {
+                    summaryDate.parentElement.classList.add('updated');
+                    setTimeout(() => summaryDate.parentElement.classList.remove('updated'), 500);
+                }
+                summaryDate.textContent = formattedDate;
+                summaryDate.style.color = date ? '#1da96c' : '#666';
+
+                // Update guests with animation
+                const summaryGuests = document.getElementById('summaryGuests');
+                const guestsText = guests ? `${guests} ${guests === 1 ? 'Person' : 'People'}` : '-';
+                if (summaryGuests.textContent !== guestsText) {
+                    summaryGuests.parentElement.classList.add('updated');
+                    setTimeout(() => summaryGuests.parentElement.classList.remove('updated'), 500);
+                }
+                summaryGuests.textContent = guestsText;
+                summaryGuests.style.color = guests ? '#1da96c' : '#666';
+
+                // Calculate and update total amount with animation
+                const summaryAmount = document.getElementById('summaryAmount');
+                let newAmount = 0;
+
+                if (package && guests) {
+                    const prices = {
+                        'leisure': 1149,
+                        'adventure': 1499,
+                        'extreme': 1999,
+                        'villa': 30000,
+                        'superdeluxe': 5500,
+                        'tent': 3750
+                    };
+
+                    if (package === 'villa') {
+                        newAmount = Math.ceil(guests / 8) * prices[package];
+                    } else if (package === 'superdeluxe' || package === 'tent') {
+                        newAmount = Math.ceil(guests / 2) * prices[package];
+                    } else {
+                        newAmount = prices[package] * guests;
+                    }
+                }
+
+                const currentAmount = parseInt(summaryAmount.textContent.replace(/[^0-9]/g, '')) || 0;
+                if (currentAmount !== newAmount) {
+                    summaryAmount.parentElement.classList.add('updated');
+                    setTimeout(() => summaryAmount.parentElement.classList.remove('updated'), 500);
+                }
+                updateAmount(summaryAmount, newAmount);
+                summaryAmount.style.color = newAmount ? '#1da96c' : '#666';
+            }
+
+            // Update event listeners to only save personal data
+            const personalInputs = [nameInput, emailInput, phoneInput];
+            personalInputs.forEach(input => {
+                input.addEventListener('input', saveFormData);
+                input.addEventListener('change', saveFormData);
+            });
+
+            // Keep the visual feedback for all inputs
+            formInputs.forEach(input => {
+                // Add visual feedback on focus
+                input.addEventListener('focus', () => {
+                    input.style.transform = 'translateY(-2px)';
+                    input.style.boxShadow = '0 5px 15px rgba(29, 169, 108, 0.1)';
+                });
+
+                input.addEventListener('blur', () => {
+                    input.style.transform = 'translateY(0)';
+                    input.style.boxShadow = 'none';
+                });
+
+                // Update summary for all inputs
+                input.addEventListener('input', updateSummary);
+                input.addEventListener('change', updateSummary);
+                input.addEventListener('keyup', updateSummary);
+            });
+
+            // Handle form submission
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Create success message with animation
+                const successMessage = document.createElement('div');
+                successMessage.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #1da96c;
+                    color: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                    z-index: 1000;
+                `;
+                successMessage.textContent = 'Thank you for your booking! We will confirm your reservation shortly.';
+                document.body.appendChild(successMessage);
+
+                // Animate message
+                setTimeout(() => {
+                    successMessage.style.transform = 'translateX(0)';
+                }, 100);
+
+                // Remove message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.transform = 'translateX(100%)';
+                    setTimeout(() => successMessage.remove(), 300);
+                }, 5000);
+
+                // Clear all stored data after successful submission
+                localStorage.removeItem('bookingPersonalData');
+
+                // Reset form and summary
+                form.reset();
+                updateSummary();
+            });
+
+            // Initialize summary if package type is in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const packageType = urlParams.get('type');
+            if (packageType) {
+                packageSelect.value = packageType;
+                updateSummary();
+            }
+
+            // Enhanced date input functionality
+            dateInput.addEventListener('focus', function () {
+                if (!this.value) {
+                    this.type = 'date';
+                }
+            });
+
+            dateInput.addEventListener('blur', function () {
+                if (!this.value) {
+                    this.type = 'text';
+                }
+            });
+
+            // Add hover effect to calendar icon
+            dateInput.addEventListener('mouseover', function () {
+                this.style.borderColor = 'var(--primary)';
+            });
+
+            dateInput.addEventListener('mouseout', function () {
+                if (!this.matches(':focus')) {
+                    this.style.borderColor = '#eee';
+                }
+            });
+
+            // Enhanced package select functionality
+            packageSelect.addEventListener('focus', () => {
+                packageContainer.style.transform = 'translateY(-2px)';
+                packageContainer.querySelector('.package-label').style.color = 'var(--primary)';
+            });
+
+            packageSelect.addEventListener('blur', () => {
+                packageContainer.style.transform = 'translateY(0)';
+                if (!packageSelect.value) {
+                    packageContainer.querySelector('.package-label').style.color = '#666';
+                }
+            });
+
+            packageSelect.addEventListener('change', () => {
+                if (packageSelect.value) {
+                    packageContainer.querySelector('.package-label').style.color = 'var(--primary)';
+                }
+            });
+
+            // Add back button functionality
+            window.addEventListener('popstate', function (event) {
+                window.location.href = 'index.html';
+            });
+
+            // Handle manual back button clicks
+            const backButton = document.querySelector('.back-btn');
+            if (backButton) {
+                backButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.location.href = 'index.html';
+                });
+            }
+
+            // Handle browser's back button
+            history.pushState({ page: 'booking' }, '', '');
+
+            // Save data before page refresh
+            window.addEventListener('beforeunload', saveFormData);
+
+            // Load saved form data when page loads
+            loadFormData();
+
+            // Add this to your existing JavaScript
+            const packageActivities = {
+                leisure: [
+                    // Adventure Activities
+                    { icon: "🎢", name: "Zipline", category: "Adventure" },
+                    { icon: "🚴", name: "Zipcycle", category: "Adventure" },
+                    { icon: "🧗‍♂️", name: "Rock Climbing", category: "Adventure" },
+                    { icon: "🎪", name: "Rope Course", category: "Adventure" },
+                    { icon: "🎯", name: "Reverse Bungee", category: "Adventure" },
+                    { icon: "🏃", name: "Running Bungee", category: "Adventure" },
+                    
+                    // Kids Activities
+                    { icon: "👶", name: "Children Zipline", category: "Kids" },
+                    { icon: "🧒", name: "Children Rock Climbing", category: "Kids" },
+                    
+                    // Water Activities
+                    { icon: "💃", name: "Rain Dance", category: "Water" },
+                    { icon: "🌊", name: "Mini Water Park", category: "Water" },
+                    
+                    // Fun Activities
+                    { icon: "🎡", name: "Human Gyro", category: "Fun" },
+                    { icon: "🚀", name: "Rocket Boom", category: "Fun" },
+                    { icon: "💥", name: "Meltdown", category: "Fun" },
+                    { icon: "⚽", name: "Human Foosball", category: "Fun" },
+                    { icon: "🎯", name: "Archery", category: "Fun" },
+                    { icon: "🏏", name: "Cricket", category: "Fun" },
+                    { icon: "🤼", name: "Human Wrestling", category: "Fun" },
+                    
+                    // Virtual Reality & Special
+                    { icon: "🎮", name: "VR Baby Bear", category: "Virtual Reality" },
+                    { icon: "🐎", name: "VR Horse", category: "Virtual Reality" },
+                    { icon: "🎪", name: "Illusion Room", category: "Special" },
+                    { icon: "🚲", name: "Reverse and Other Cycle", category: "Fun" }
+                ],
+                adventure: [
+                    // Adventure Activities
+                    { icon: "🎢", name: "Zipline", category: "Adventure" },
+                    { icon: "🌄", name: "Sky Walk", category: "Adventure" },
+                    { icon: "🚴", name: "Zipcycle", category: "Adventure" },
+                    { icon: "🎯", name: "Human Sling Shot", category: "Adventure" },
+                    { icon: "🧗‍♂️", name: "Rock Climbing", category: "Adventure" },
+                    { icon: "🎢", name: "Reverse Bungee", category: "Adventure" },
+                    { icon: "🎪", name: "Rope Course", category: "Adventure" },
+                    { icon: "🏃", name: "Running Bungee", category: "Adventure" },
+                    
+                    // Kids Activities
+                    { icon: "👶", name: "Children Zipline", category: "Kids" },
+                    { icon: "🧒", name: "Children Rock Climbing", category: "Kids" },
+                    
+                    // Water Activities
+                    { icon: "💃", name: "Rain Dance", category: "Water" },
+                    { icon: "🌊", name: "Mini Water Park", category: "Water" },
+                    
+                    // Fun Activities
+                    { icon: "🎡", name: "Human Gyro", category: "Fun" },
+                    { icon: "🚀", name: "Rocket Boom", category: "Fun" },
+                    { icon: "💥", name: "Meltdown", category: "Fun" },
+                    { icon: "⚽", name: "Human Foosball", category: "Fun" },
+                    { icon: "🎯", name: "Archery", category: "Fun" },
+                    { icon: "🏏", name: "Cricket", category: "Fun" },
+                    { icon: "🤼", name: "Human Wrestling", category: "Fun" },
+                    { icon: "🚲", name: "Reverse and Other Cycle", category: "Fun" },
+                    
+                    // Virtual Reality & Special
+                    { icon: "🎮", name: "VR Baby Bear", category: "Virtual Reality" },
+                    { icon: "🐎", name: "VR Horse", category: "Virtual Reality" },
+                    { icon: "🎬", name: "9D VR Cinematic", category: "Virtual Reality" },
+                    { icon: "💺", name: "9D VR Seat/2", category: "Virtual Reality" },
+                    { icon: "🎪", name: "Illusion Room", category: "Special" },
+                    { icon: "🎯", name: "Air Rifle", category: "Special" }
+                ],
+                extreme: [
+                    // Adventure Activities
+                    { icon: "🎢", name: "Zipline", category: "Adventure" },
+                    { icon: "🪂", name: "Free Fly", category: "Adventure" },
+                    { icon: "🌄", name: "Sky Walk", category: "Adventure" },
+                    { icon: "🚴", name: "Zipcycle", category: "Adventure" },
+                    { icon: "🎯", name: "Human Sling Shot", category: "Adventure" },
+                    { icon: "🧗‍♂️", name: "Rock Climbing", category: "Adventure" },
+                    { icon: "🎨", name: "Paint Ball", category: "Adventure" },
+                    { icon: "🎢", name: "Reverse Bungee", category: "Adventure" },
+                    { icon: "🎪", name: "Rope Course", category: "Adventure" },
+                    { icon: "🏃", name: "Running Bungee", category: "Adventure" },
+                    { icon: "🏎️", name: "ATV", category: "Adventure" },
+                    
+                    // Kids Activities
+                    { icon: "👶", name: "Children Zipline", category: "Kids" },
+                    { icon: "🧒", name: "Children Rock Climbing", category: "Kids" },
+                    
+                    // Water Activities
+                    { icon: "💃", name: "Rain Dance", category: "Water" },
+                    { icon: "🌊", name: "Mini Water Park", category: "Water" },
+                    
+                    // Fun Activities
+                    { icon: "🎡", name: "Human Gyro", category: "Fun" },
+                    { icon: "🚀", name: "Rocket Boom", category: "Fun" },
+                    { icon: "💥", name: "Meltdown", category: "Fun" },
+                    { icon: "⚽", name: "Human Foosball", category: "Fun" },
+                    { icon: "🎯", name: "Archery", category: "Fun" },
+                    { icon: "🏏", name: "Cricket", category: "Fun" },
+                    { icon: "🤼", name: "Human Wrestling", category: "Fun" },
+                    { icon: "🚲", name: "Reverse and Other Cycle", category: "Fun" },
+                    
+                    // Virtual Reality & Special
+                    { icon: "🎮", name: "VR Baby Bear", category: "Virtual Reality" },
+                    { icon: "🐎", name: "VR Horse", category: "Virtual Reality" },
+                    { icon: "🎬", name: "9D VR Cinematic", category: "Virtual Reality" },
+                    { icon: "💺", name: "9D VR Seat/2", category: "Virtual Reality" },
+                    { icon: "🎪", name: "Illusion Room", category: "Special" },
+                    { icon: "🎯", name: "Air Rifle", category: "Special" }
+                ]
+            };
+
+            // Update the package select event listener to show categories
+            packageSelect.addEventListener('change', function() {
+                const selectedPackage = this.value;
+                const infoPanel = document.getElementById('packageInfoPanel');
+                const activitiesList = document.getElementById('activitiesList');
+
+                if (selectedPackage && packageActivities[selectedPackage]) {
+                    // Clear previous activities
+                    activitiesList.innerHTML = '';
+
+                    // Group activities by category
+                    const categories = {};
+                    packageActivities[selectedPackage].forEach(activity => {
+                        if (!categories[activity.category]) {
+                            categories[activity.category] = [];
+                        }
+                        categories[activity.category].push(activity);
+                    });
+
+                    // Create category sections
+                    Object.keys(categories).forEach(category => {
+                        // Add category header
+                        const categoryHeader = document.createElement('div');
+                        categoryHeader.className = 'activity-category';
+                        categoryHeader.innerHTML = `<h4>${category}</h4>`;
+                        activitiesList.appendChild(categoryHeader);
+
+                        // Add activities in this category
+                        categories[category].forEach(activity => {
+                            const activityItem = document.createElement('div');
+                            activityItem.className = 'activity-item';
+                            activityItem.innerHTML = `
+                                <span>${activity.icon}</span>
+                                <span>${activity.name}</span>
+                            `;
+                            activitiesList.appendChild(activityItem);
+                        });
+                    });
+
+                    // Show the panel with animation
+                    infoPanel.style.display = 'block';
+                    infoPanel.style.opacity = '0';
+                    setTimeout(() => {
+                        infoPanel.style.opacity = '1';
+                    }, 10);
+                } else {
+                    infoPanel.style.display = 'none';
+                }
+
+                // Call existing updateSummary function
+                updateSummary();
+            });
+        });
+    </script>
+</body>
+
+</html>
